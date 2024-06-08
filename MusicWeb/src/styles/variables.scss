@@ -1,0 +1,16 @@
+@import '../views/mainPage/mianPage.scss';
+@keyframes player {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@mixin anm {
+  animation-name: player;
+  animation-duration: 10s;
+  animation-play-state: paused;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}

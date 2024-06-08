@@ -1,0 +1,13 @@
+$headerNavColor: rgb(36, 36, 36);
+@mixin setWHBC($width, $height, $bacgroundcolor: unset, $color: unset) {
+  height: $height;
+  width: $width;
+  background-color: $bacgroundcolor;
+  color: $color;
+}
+@mixin flexBox($direction: row nowrap, $justifyContent: flex-start, $alignItem: stretch) {
+  display: flex;
+  flex-flow: $direction;
+  justify-content: $justifyContent;
+  align-items: $alignItem;
+}
