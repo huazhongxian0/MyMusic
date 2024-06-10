@@ -57,6 +57,24 @@
           <ul class="icon_lists dib-box">
           
             <li class="dib">
+              <span class="icon iconfont">&#xe611;</span>
+                <div class="name">用户</div>
+                <div class="code-name">&amp;#xe611;</div>
+              </li>
+          
+            <li class="dib">
+              <span class="icon iconfont">&#xe656;</span>
+                <div class="name">下拉</div>
+                <div class="code-name">&amp;#xe656;</div>
+              </li>
+          
+            <li class="dib">
+              <span class="icon iconfont">&#xe7ec;</span>
+                <div class="name">搜索</div>
+                <div class="code-name">&amp;#xe7ec;</div>
+              </li>
+          
+            <li class="dib">
               <span class="icon iconfont">&#xeb54;</span>
                 <div class="name">添加</div>
                 <div class="code-name">&amp;#xeb54;</div>
@@ -66,18 +84,6 @@
               <span class="icon iconfont">&#xe60e;</span>
                 <div class="name">添加</div>
                 <div class="code-name">&amp;#xe60e;</div>
-              </li>
-          
-            <li class="dib">
-              <span class="icon iconfont">&#xeb48;</span>
-                <div class="name">24gl-repeat2</div>
-                <div class="code-name">&amp;#xeb48;</div>
-              </li>
-          
-            <li class="dib">
-              <span class="icon iconfont">&#xeb49;</span>
-                <div class="name">24gl-shuffle</div>
-                <div class="code-name">&amp;#xeb49;</div>
               </li>
           
             <li class="dib">
@@ -108,12 +114,6 @@
               <span class="icon iconfont">&#xea6f;</span>
                 <div class="name">24gl-playlist</div>
                 <div class="code-name">&amp;#xea6f;</div>
-              </li>
-          
-            <li class="dib">
-              <span class="icon iconfont">&#xea75;</span>
-                <div class="name">24gl-shuffle</div>
-                <div class="code-name">&amp;#xea75;</div>
               </li>
           
             <li class="dib">
@@ -315,9 +315,9 @@
 >@font-face {
   font-family: 'iconfont';
   src: 
-       url('iconfont.woff2?t=1717742524496') format('woff2'),
-       url('iconfont.woff?t=1717742524496') format('woff'),
-       url('iconfont.ttf?t=1717742524496') format('truetype');
+       url('iconfont.woff2?t=1717996455940') format('woff2'),
+       url('iconfont.woff?t=1717996455940') format('woff'),
+       url('iconfont.ttf?t=1717996455940') format('truetype');
 }
 </code></pre>
           <h3 id="-iconfont-">第二步：定义使用 iconfont 的样式</h3>
@@ -344,6 +344,33 @@
         <ul class="icon_lists dib-box">
           
           <li class="dib">
+            <span class="icon iconfont icon-yonghu"></span>
+            <div class="name">
+              用户
+            </div>
+            <div class="code-name">.icon-yonghu
+            </div>
+          </li>
+          
+          <li class="dib">
+            <span class="icon iconfont icon-xiala"></span>
+            <div class="name">
+              下拉
+            </div>
+            <div class="code-name">.icon-xiala
+            </div>
+          </li>
+          
+          <li class="dib">
+            <span class="icon iconfont icon-sousuo"></span>
+            <div class="name">
+              搜索
+            </div>
+            <div class="code-name">.icon-sousuo
+            </div>
+          </li>
+          
+          <li class="dib">
             <span class="icon iconfont icon-tianjia-copy"></span>
             <div class="name">
               添加
@@ -358,24 +385,6 @@
               添加
             </div>
             <div class="code-name">.icon-tianjia
-            </div>
-          </li>
-          
-          <li class="dib">
-            <span class="icon iconfont icon-repeat-active"></span>
-            <div class="name">
-              24gl-repeat2
-            </div>
-            <div class="code-name">.icon-repeat-active
-            </div>
-          </li>
-          
-          <li class="dib">
-            <span class="icon iconfont icon-shuffle-active"></span>
-            <div class="name">
-              24gl-shuffle
-            </div>
-            <div class="code-name">.icon-shuffle-active
             </div>
           </li>
           
@@ -421,15 +430,6 @@
               24gl-playlist
             </div>
             <div class="code-name">.icon-24gl-playlist
-            </div>
-          </li>
-          
-          <li class="dib">
-            <span class="icon iconfont icon-shuffle"></span>
-            <div class="name">
-              24gl-shuffle
-            </div>
-            <div class="code-name">.icon-shuffle
             </div>
           </li>
           
@@ -732,6 +732,30 @@
           
             <li class="dib">
                 <svg class="icon svg-icon" aria-hidden="true">
+                  <use xlink:href="#icon-yonghu"></use>
+                </svg>
+                <div class="name">用户</div>
+                <div class="code-name">#icon-yonghu</div>
+            </li>
+          
+            <li class="dib">
+                <svg class="icon svg-icon" aria-hidden="true">
+                  <use xlink:href="#icon-xiala"></use>
+                </svg>
+                <div class="name">下拉</div>
+                <div class="code-name">#icon-xiala</div>
+            </li>
+          
+            <li class="dib">
+                <svg class="icon svg-icon" aria-hidden="true">
+                  <use xlink:href="#icon-sousuo"></use>
+                </svg>
+                <div class="name">搜索</div>
+                <div class="code-name">#icon-sousuo</div>
+            </li>
+          
+            <li class="dib">
+                <svg class="icon svg-icon" aria-hidden="true">
                   <use xlink:href="#icon-tianjia-copy"></use>
                 </svg>
                 <div class="name">添加</div>
@@ -744,22 +768,6 @@
                 </svg>
                 <div class="name">添加</div>
                 <div class="code-name">#icon-tianjia</div>
-            </li>
-          
-            <li class="dib">
-                <svg class="icon svg-icon" aria-hidden="true">
-                  <use xlink:href="#icon-repeat-active"></use>
-                </svg>
-                <div class="name">24gl-repeat2</div>
-                <div class="code-name">#icon-repeat-active</div>
-            </li>
-          
-            <li class="dib">
-                <svg class="icon svg-icon" aria-hidden="true">
-                  <use xlink:href="#icon-shuffle-active"></use>
-                </svg>
-                <div class="name">24gl-shuffle</div>
-                <div class="code-name">#icon-shuffle-active</div>
             </li>
           
             <li class="dib">
@@ -800,14 +808,6 @@
                 </svg>
                 <div class="name">24gl-playlist</div>
                 <div class="code-name">#icon-24gl-playlist</div>
-            </li>
-          
-            <li class="dib">
-                <svg class="icon svg-icon" aria-hidden="true">
-                  <use xlink:href="#icon-shuffle"></use>
-                </svg>
-                <div class="name">24gl-shuffle</div>
-                <div class="code-name">#icon-shuffle</div>
             </li>
           
             <li class="dib">

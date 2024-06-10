@@ -10,25 +10,26 @@ try {
     database.query(`select * from users where username='${req.body.username}'`,(err0,result0) => {
         if(err0){ res.send({code:101,message:'注册失败,请联系管理员',type:'error',data:err0}); return}
         if(result0.length !== 0){res.send({code:102,message:'账号已被注册',type:'error'});return}
-            database.query(`INSERT INTO users (username, password, roleid) VALUES ("${req.body.username}", "${req.body.password}", '2');`,(err,results) => {
+            database.query(`INSERT INTO users (username, password, roleid) VALUES ("${req.body.username}", "${req.body.password}", '6');`,(err,results) => {
             if(err){
                 res.send({code:3,message:'注册失败,请联系管理员',type:'error',data:err})
             }else{
-                console.log(results);
-                if(results.affectedRows === 1){
+                database.query(`INSERT INTO lists (user_id, song_ids, name,date_created,is_default_favorite) VALUES (${results.insertId}, "", '我喜欢的音乐','${new Date().toISOString().slice(0,19).replace('T',' ')}','1');`,(error,result) => {
+                    console.log(error,result);
+                    if(result.affectedRows === 1){
+                        res.send({
+                            code:200,
+                            message:'注册成功',
+                            type:'success',
+                        })
+                        return
+                    }
                     res.send({
-                        code:200,
-                        message:'注册成功',
-                        type:'success',
-                    })
-                    return
-                }
-                res.send({
-                    message:'注册失败',
-                    type:'error',
-                    code:100
+                        message:'注册失败',
+                        type:'error',
+                        code:100
+                    })    
                 })
-                
             }
         })
 

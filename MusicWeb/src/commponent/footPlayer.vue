@@ -165,7 +165,6 @@ const translateTo = (time) => {
 }
 //删除
 const deletePlaying = (index, event) => {
-  console.log(index)
   event.stopPropagation()
   songsinfo.deletePlaying(index)
 }
@@ -175,8 +174,6 @@ const ClickLove = async (isLike: boolean, id: number, event: any) => {
   //是 true 就表明是要删除
   //是 false 就表明是添加
   let result = null
-  console.log(songsinfo.id)
-
   if (!songsinfo.id) {
     ElMessage({
       message: '你还没选中歌曲哦！',
@@ -186,7 +183,6 @@ const ClickLove = async (isLike: boolean, id: number, event: any) => {
   }
   if (isLike) {
     //删除操作
-    console.log(userinfo.likeListId)
     result = await tokenRequest.post(`/deletelike`, { listId: userinfo.likeListId, songsId: id })
     ElMessage(result)
     if (result.type === 'success') {
@@ -200,6 +196,12 @@ const ClickLove = async (isLike: boolean, id: number, event: any) => {
       songsinfo.isLike = true
     }
   }
+}
+//播放指定歌曲
+const Play = (item:Object) => {
+songsinfo.routerUrl = item.url
+songsinfo.title = item.title
+songsinfo.author = item.author
 }
 </script>
 <template>
@@ -241,8 +243,7 @@ const ClickLove = async (isLike: boolean, id: number, event: any) => {
         <span class="pause" @click="pause">
           <i :class="pausePosition" style="font-size: 40px"></i>
         </span>
-        <span class="next" @click="PlayNext"
-          ><i
+        <span class="next" @click="PlayNext"><i
             class="iconfont icon-ai09"
             style="font-size: 25px"
             @mouseenter="
@@ -255,8 +256,8 @@ const ClickLove = async (isLike: boolean, id: number, event: any) => {
                 e.target.classList.remove('icon-ai09-active')
               }
             "
-          ></i
-        ></span>
+          ></i>
+        </span>
         <span
           class="cycle"
           @click="updateCycle"
@@ -336,11 +337,7 @@ const ClickLove = async (isLike: boolean, id: number, event: any) => {
         <li
           v-for="(item, index) in songsinfo.playingList"
           :key="item.id"
-          @mouseenter="
-            (e) => {
-              e
-            }
-          "
+          @click="Play(item)"
         >
           <img src="../assets/photos/day16-retro-cassette.png" />
           <span>
@@ -348,7 +345,7 @@ const ClickLove = async (isLike: boolean, id: number, event: any) => {
             <div class="author">{{ item.author }}</div>
           </span>
           <div class="setting">
-            <i class="iconfont icon-aixin" style="font-size: 20px"></i>
+           
             <i
               class="iconfont icon-lajixiangshanchu"
               style="font-size: 20px"

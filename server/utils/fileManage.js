@@ -108,6 +108,7 @@ const appendToFile = (text,filePath) => {
 const dir = './databases/test'
 //提交接口
 router.post('/fileuploadtest',upload.single('file'),async(req,res) => {
+    console.log('发了个文件',req.body.index);
   const a = req.body
   writeFile(dir+`/${req.body.md5}/${req.body.index}`,req.file.buffer).then(e => {
     res.send({
@@ -125,6 +126,7 @@ router.post('/checkfileintegrity',async(req,res) => {
     files.map(e => {
         judgeSet.delete(parseInt(e.name))
     })
+    console.log('完整性接口',judgeSet);
     res.send({
         type:'success',
         data:[...judgeSet],

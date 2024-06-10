@@ -58,7 +58,6 @@ router.get('/getroleinfo',(req,res) => {
 })
 //根据id修改用户信息
 router.post('/updateuserinfo',(req,res) => {
-    
     database.query(`UPDATE users SET nickname='${req.body.nickname}',username = '${req.body.username}', password = '${req.body.password}' ,roleid = '${req.body.roleid}' WHERE id = ${req.body.id};`,(error,result) => {
         if(error) throw error
         if(result.affectedRows === 1){
@@ -78,6 +77,23 @@ router.get('/getallroutes',(req,res) => {
             message:"查询成功",
             data:result
         })
+    })
+})
+//根据id修改昵称
+router.post('/updatenickname',(req,res) => {
+    database.query(`UPDATE users SET nickname='${req.body.nickname}' WHERE id = ${req.auth.id}`,(error,result) => {
+        if(error) throw error
+        if(result.affectedRows === 1){
+            res.send({
+                type:'success',
+                message:'修改成功'
+            })
+        }else{
+            res.send({
+                type:'error',
+                message:'修改失败，原因不明'
+            })
+        }
     })
 })
 module.exports = router

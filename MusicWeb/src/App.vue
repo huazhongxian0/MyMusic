@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
-import { onMounted, ref, watch, nextTick, onBeforeUnmount, provide } from 'vue'
+import { onMounted, ref, watch, nextTick, onBeforeUnmount, provide, reactive } from 'vue'
 
 import { useRouter } from 'vue-router'
 const router = useRouter()
@@ -11,13 +11,13 @@ const songsinfo = useSongsinfoStore()
 const player = ref()
 const plays = windowinfo.play
 onMounted(async () => {
-  console.log('监听')
   //token有效或无效
   if (!localStorage.getItem('token')) {
     router.push('/login')
   } else {
     router.push('/main')
   }
+  songsinfo.playerDom = player.value
 })
 //监听暂停和播放
 watch(
@@ -55,6 +55,7 @@ watch(
     if (n >= 1) {
       songsinfo.PlayNext(player.value)
     }
+  
   }
 )
 //进度条
@@ -99,9 +100,12 @@ provide('reload', () => {
 
 <template>
   <div class="page" :style="{ height: windowinfo.height + 'px' }">
-    <RouterView v-if="isRouterActive" />
-    <audio ref="player" :src="songsinfo.url" @timeupdate="update" preload />
+    <keep-alive>
+      <RouterView v-if="isRouterActive" />
+    </keep-alive>
+    <audio ref="player" crossorigin="anonymous"  :src="songsinfo.url" @timeupdate="update" preload />
   </div>
+  
 </template>
 
 <style scoped lang="scss">

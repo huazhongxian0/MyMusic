@@ -148,6 +148,7 @@ router.post('/islike',(req,res) => {
         return
     }
     selectList({userid:req.auth.id}).then(e => {
+        
        let array =  e.list.song_ids.split(',')
         req.body.list.map(e => {
             if(!e){

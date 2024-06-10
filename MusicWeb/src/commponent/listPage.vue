@@ -34,7 +34,6 @@ const page = ref()
 const date = ref()
 onMounted(async () => {
   listInfo.value = JSON.parse(route.query.data);
-  console.log(listInfo.value);
   let result = await tokenRequest.post('/islike', { list: listInfo.value.songs })
   listInfo.value.songs = result.data
   date.value = new Date(listInfo.value.date_created)

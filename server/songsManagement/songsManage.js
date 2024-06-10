@@ -8,6 +8,8 @@ const multer = require('multer')
 const database = require('../databases/databaseConfig');
 const { rejects } = require('assert');
 const { type } = require('os');
+const { serialize } = require('v8');
+const { error } = require('console');
 const dir = './databases/songsList'
 fs.mkdirSync(dir, { recursive: true }) 
 //保存歌曲
@@ -153,6 +155,7 @@ let deleteTableSongs = (id) => {
     })
   })
 }
+//删歌
 router.delete('/deletesong/:id',(req,res) => {
   select(req.params.id).then(result => {
      Promise.all([deleteFileSongs(result.url),deleteTableSongs(result.id)]).then(result => {
@@ -171,5 +174,48 @@ router.delete('/deletesong/:id',(req,res) => {
         })
      })
   })
+})
+//搜索
+router.post('/search',(req,res) => {
+  const SelectSongs = (props) => {
+    return new Promise((resolve,reject) => {
+      database.query(`select * from songlists`,(error,result) => {
+        if(error){
+          reject(error)
+        }else{
+          props.result = result.filter(e => e.title.includes(req.body.text))
+          resolve(props)
+        }
+      })
+    })
+  }
+  const AddIsLike = (props) => {
+    return new Promise((resolve,reject) => {
+      database.query(`select * from lists where user_id = '${props.userId}' and is_default_favorite = '1'`,(error,result) => {
+        if(error) reject(error)
+        let likes = result[0].song_ids.split(',')
+        props.result = props.result.map(e => {e.islike = likes.includes(e.id.toString()); return e})
+        resolve(props)
+      })
+    })
+  }
+  SelectSongs({text:req.body.text,userId:req.auth.id}).then(props => {
+    return AddIsLike(props)
+  }).then(props => {
+    if(props.result.length === 0){
+      res.send({
+        type:'success',
+        message:'查询成功,还没有这首歌哦！',
+        data:props.result
+      })
+    }else{
+      res.send({
+        type:'success',
+        message:'查询成功',
+        data:props.result
+      })
+    }
+  })
+
 })
 module.exports = router

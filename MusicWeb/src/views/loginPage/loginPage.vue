@@ -40,6 +40,13 @@ import {login,register} from '@/utils/usermanage'
   const returnPassword:any = ref(null)
   //登录操作
   const submit = async () => {
+    if(form.username.trim() == '' || form.password.trim() == ''){
+      ElMessage({
+        type:'warning',
+        message:'用户名或密码不能为空哦！'
+      })
+      return
+    }
     let result =await login(form.username,form.password,userinfo,router)
     ElMessage({
       type:result.type,
@@ -126,8 +133,8 @@ tr>td{
   display: inline-block; 
 }
 .page {
-  @include setWHBC(100%, 1000px, white, black);
-  @include flexBox(row nowrap, flex-start, flex-start);
+  @include setWHBC(100%, 100%, white, black);
+  @include flexBox(row nowrap, center, flex-start);
 }
 .form {
   @include setWHBC(50%, 300px, white, black);

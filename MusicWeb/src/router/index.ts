@@ -21,7 +21,9 @@ const router = createRouter({
         path:'/list',
         name:'list',
         component:listPage,
-      }]
+      },
+     
+    ]
     },
     {
       path: '/login',

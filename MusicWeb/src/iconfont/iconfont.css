@@ -2,9 +2,9 @@
   font-family: "iconfont"; /* Project id 4564536 */
   /* Color fonts */
   src: 
-       url('iconfont.woff2?t=1717742524496') format('woff2'),
-       url('iconfont.woff?t=1717742524496') format('woff'),
-       url('iconfont.ttf?t=1717742524496') format('truetype');
+       url('iconfont.woff2?t=1717996455940') format('woff2'),
+       url('iconfont.woff?t=1717996455940') format('woff'),
+       url('iconfont.ttf?t=1717996455940') format('truetype');
 }
 
 .iconfont {
@@ -15,20 +15,24 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-yonghu:before {
+  content: "\e611";
+}
+
+.icon-xiala:before {
+  content: "\e656";
+}
+
+.icon-sousuo:before {
+  content: "\e7ec";
+}
+
 .icon-tianjia-copy:before {
   content: "\eb54";
 }
 
 .icon-tianjia:before {
   content: "\e60e";
-}
-
-.icon-repeat-active:before {
-  content: "\eb48";
-}
-
-.icon-shuffle-active:before {
-  content: "\eb49";
 }
 
 .icon-volumeMiddle-active:before {
@@ -49,10 +53,6 @@
 
 .icon-24gl-playlist:before {
   content: "\ea6f";
-}
-
-.icon-shuffle:before {
-  content: "\ea75";
 }
 
 .icon-repeat:before {

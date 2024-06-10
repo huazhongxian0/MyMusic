@@ -15,7 +15,6 @@ const login = async (username: string, password: string, userinfo: any, router: 
     newRoutes.map((e) => {
       router.addRoute(e)
     })
-    console.log(result)
     userinfo.SetUserInfo(
       result.userInfo.id,
       result.userInfo.nickName,
@@ -34,6 +33,13 @@ const login = async (username: string, password: string, userinfo: any, router: 
 }
 //注册
 const register = async (username: string, password: string) => {
+  if(username.trim() === '' && password.trim() === ''){
+    ElMessage({
+      type:'warning',
+      message:'用户名或密码不能为空哦！'
+    })
+    return
+  }
   const result: any = await request.post('/register', {
     username,
     password

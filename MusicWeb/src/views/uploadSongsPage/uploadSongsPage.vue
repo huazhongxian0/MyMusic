@@ -34,7 +34,6 @@ const form = reactive<formdata>({
 })
 //超出限制时调用的钩子
 const handleExceed = (e) => {
-  console.log('超出限制的', e)
   ElMessage({
     message: '超出限制了哦！',
     type: 'error'

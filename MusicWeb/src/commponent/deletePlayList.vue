@@ -23,7 +23,6 @@ const deleteSong = async (id, index) => {
 
 //展示
 const showSong = (item) => {
-  console.log(item)
   time.value.push(item)
   switchToShow.value = true
   showsurl.value = songsinfo.BASEURL + item.url

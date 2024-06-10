@@ -63,7 +63,6 @@ export const useSongsinfoStore = defineStore('song', () => {
         }
       }
     }
-    console.log(left, right)
     return {
       has: false,
       index: null
@@ -184,11 +183,17 @@ export const useSongsinfoStore = defineStore('song', () => {
   })
 
   watch(cycleMode, (newValue) => {
+    let transit= playing.value
     switch (newValue) {
       case 0:
         singleCycle.value = false
         playingList.value = randomList(JSON.parse(JSON.stringify(playerList.value)))
         playing.value = searchs(playingList.value, playing.value.url)
+        if(!playing.value){
+          playing.value = transit
+          playingList.value.push(playing.value)
+          playing.value.index = playingList.value.length - 1
+        }
         if (playing.value.index === playingList.value.length - 1) {
           nextIndex.value = 0
         } else {
@@ -199,6 +204,12 @@ export const useSongsinfoStore = defineStore('song', () => {
         singleCycle.value = false
         playingList.value = JSON.parse(JSON.stringify(playerList.value))
         playing.value = searchs(playingList.value, playing.value.url)
+        if(!playing.value){
+          playing.value = transit
+          playingList.value.push(playing.value)
+          playing.value.index = playingList.value.length - 1
+        }
+        
         if (playing.value.index === playingList.value.length - 1) {
           nextIndex.value = 0
         } else {
@@ -228,8 +239,14 @@ export const useSongsinfoStore = defineStore('song', () => {
       nextIndex.value = index + 1
     }
   }
-  
+  const playerDom = ref()
+  const hasConnect = ref(false)
+  const Connect = ref()
+  const audioContext = ref() 
+  const analyser = ref()
   return {
+    analyser,
+    audioContext,
     id,
     url,
     setUrl,
@@ -262,6 +279,9 @@ export const useSongsinfoStore = defineStore('song', () => {
     isLike,
     likeList,
     playing,
-    myLists
+    myLists,
+    playerDom,
+    Connect,
+    hasConnect,
   }
 })

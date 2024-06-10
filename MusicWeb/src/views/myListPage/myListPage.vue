@@ -12,8 +12,6 @@ onMounted(async () => {
     //请求歌单数据
     let result = await tokenRequest.get('/getsonglists')
     lists.value = result.data
-    console.log(result);
-    
 })
 //转换日期为人能接受的
 const TranslateDate = (date: Date) => {

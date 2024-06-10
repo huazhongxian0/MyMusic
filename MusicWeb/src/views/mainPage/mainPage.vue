@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { mapRoute, generateTree } from '@/utils/router'
 import { RouterLink, RouterView, useRouter } from 'vue-router'
 import { useUserinfoStore } from '@/stores/counter'
@@ -7,6 +7,8 @@ import { useWindowinfoStore } from '@/stores/windowInfo'
 import footPlayer from '@/commponent/footPlayer.vue'
 import { useSongsinfoStore } from '@/stores/songsPlay'
 import tokenRequest from '@/utils/tokenRequest'
+import { ElMessage } from 'element-plus'
+import palyList from '@/commponent/palyList.vue'
 const router = useRouter()
 const userinfo = useUserinfoStore()
 const windowInfo = useWindowinfoStore()
@@ -27,7 +29,6 @@ onMounted(async () => {
     headNav.value = routes.filter((e) => {
       return e.id === 1
     })[0].children
-    console.log(headNav.value)
     //深拷贝这个树目的是生成路由表里的标准格式数据
     let newRoutes = JSON.parse(JSON.stringify(routes))
     newRoutes = newRoutes.map((e: any) => mapRoute(e))
@@ -35,6 +36,7 @@ onMounted(async () => {
       router.addRoute(e)
     })
   })
+  router.push('/main/recommend')
   await tokenRequest.get('/getuserinfo').then((result) => {
     userinfo.SetUserInfo(
       result.data.id,
@@ -63,13 +65,80 @@ const handNav = (id: number) => {
   selectId.value = id
   localStorage.setItem('page', id)
 }
+//搜索模块
+const searchSongs = ref('')
+const Search = async() => {
+  if(searchSongs.value === ''){
+    ElMessage({
+      type:'warning',
+      message:'你没输入任何值啊！'
+    })
+    return
+  }
+  let result = await tokenRequest.post('/search',{
+      text:searchSongs.value
+  })
+  ElMessage(result)
+  searchResultSongs.value = result.data
+  searchPage.value = true
+  if(result.type === 'success'){
+    searchSongs.value = ''
+  }
+}
+//搜索面板弹出
+const searchPage = ref(false)
+const searchResultSongs = ref([])
+watch(searchPage,(newValues) => {
+  if(!newValues){
+    searchResultSongs.value = []
+  }
+})
+const UpdateNickname = () => {
+  ElMessageBox.prompt('请输入你要修改后的昵称', '修改昵称', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+  })
+    .then(({ value }) => {
+      if(value.trim() === ''){
+        ElMessage({
+          type: 'warning',
+          message: `不能为空哦！`,
+        })
+        return
+      }else{
+        tokenRequest.post('updatenickname',{nickname: value}).then(e => {
+          ElMessage(e)
+          if(e.type === 'success'){
+            userinfo.nickName = value
+          }
+        })
+      }
+    })
+    .catch(() => {})
+}
+const Logout = () => {
+  localStorage.removeItem('token')
+  router.push('/login')
+}
 </script>
 
 <template>
   <div class="page">
     <el-container direction="vertical">
       <el-header class="ElHeader">
-        <img />
+        <el-dropdown>
+          <span class="logout">
+            <i class="iconfont icon-yonghu icons"></i>
+            {{userinfo.nickName}}
+            <i class="iconfont icon-xiala icons"></i>
+          </span> 
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item @click="UpdateNickname">修改昵称</el-dropdown-item>
+              <el-dropdown-item @click="Logout">退出登录</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
         <nav>
           <span v-for="item in headNav" :key="item.id" style="width: auto; height: 100%">
             <RouterLink
@@ -81,7 +150,10 @@ const handNav = (id: number) => {
           </span>
         </nav>
         <div class="search">
-          <div></div>
+          <input type="text" v-model="searchSongs" class="ipt" placeholder="你可以在此搜索">
+          <span class="btn" @click="Search()">
+            <i class="iconfont icon-sousuo ic"></i>
+          </span>
         </div>
       </el-header>
       <div class="line"></div>
@@ -95,7 +167,15 @@ const handNav = (id: number) => {
         <footPlayer />
       </el-footer>
     </el-container>
-  <audio ref="player" :src="songsinfo.url" />
+    <audio ref="player" :src="songsinfo.url" />
+  <el-dialog v-model="searchPage" title="查询结果" width="800">
+    <palyList :songsList="searchResultSongs"/>
+    <template #footer>
+      <div class="dialog-footer">
+        <el-button @click="searchPage = false">取消</el-button>
+      </div>
+    </template>
+  </el-dialog>
   </div>
 </template>
 <style scoped lang="scss">
@@ -110,6 +190,44 @@ const handNav = (id: number) => {
   font-size: 14px;
   position: fixed;
   z-index: 100;
+  .logout{
+    @include setWHBC(200px,70px,#242424,rgb(173, 173, 66));
+    @include flexBox(row,center,center);
+    padding: 0;
+    .icons{
+      font-size:20px;
+      margin: 0;
+    }
+
+  }
+  .search{
+    @include flexBox(row,center,center);
+    margin-left: 20px;
+    .ipt{
+      @include setWHBC(calc(100% - 40px),100%);
+      border-end-start-radius: 50px;
+      border-start-start-radius: 50px;
+      border: 0px;
+      position: relative;
+      margin: 0;
+      padding: 12px;
+      box-sizing: border-box;
+      &:focus{
+        outline: none;
+      }
+    }
+    .btn{
+      @include setWHBC(40px,100%,red);
+      @include flexBox(row,flex-start,center);
+      border: 0;
+      border-start-end-radius: 50px;
+      border-end-end-radius: 50px;
+      font-size: 50px;
+      .ic{
+        font-size: 20px;
+      }
+    }
+  }
 }
 .ElHeader > img {
   @include setWHBC(200px, 100%, $headerNavColor, white);
